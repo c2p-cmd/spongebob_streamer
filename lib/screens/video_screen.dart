@@ -42,7 +42,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           _didPlayerInit = true;
         }));
     _chewieController = ChewieController(
-        videoPlayerController: _controller, autoPlay: false, looping: true);
+        videoPlayerController: _controller, autoPlay: false, looping: true, allowedScreenSleep: false);
     _player = Chewie(
       controller: _chewieController,
     );
