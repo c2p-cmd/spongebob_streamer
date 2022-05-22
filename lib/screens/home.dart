@@ -12,6 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final List<Widget> _fetchedEpisodes = <Widget>[];
+
   String? getLinkFrom(bs.BeautifulSoup soup) => soup
       .find("input", attrs: {"name": "main_video_url"})
       ?.attributes['value']
@@ -63,13 +65,6 @@ class _HomePageState extends State<HomePage> {
           elevation: 0.1,
           backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
           title: Text("Spongebob Squarepants".toUpperCase()),
-          // actions: [
-          //   Center(
-          //       child: IconButton(
-          //           onPressed: () {
-          //             print("Button clicked");
-          //           }, icon: const Icon(Icons.refresh_rounded)))
-          // ],
         ),
         body: Center(
           child: FutureBuilder(
@@ -86,16 +81,15 @@ class _HomePageState extends State<HomePage> {
                   return const Text("Some error has occurred.");
                 }
 
-                final List<Widget> fetchedEpisodes = <Widget>[];
                 for (var episode in episodes) {
                   final episodeWidget = makeListTile(episode);
-                  fetchedEpisodes.add(episodeWidget);
+                  _fetchedEpisodes.add(episodeWidget);
                 }
 
                 return makeBody(
-                    fetchedEpisodes.length,
+                    _fetchedEpisodes.length,
                     Column(
-                      children: fetchedEpisodes,
+                      children: _fetchedEpisodes,
                     ));
               }
 
@@ -133,9 +127,13 @@ class _HomePageState extends State<HomePage> {
           decoration: const BoxDecoration(
               border:
                   Border(right: BorderSide(width: 1.0, color: Colors.white24))),
-          child: const Icon(
-            Icons.autorenew_rounded,
-            color: Colors.white,
+          child: CircleAvatar(
+            backgroundColor: const Color.fromRGBO(66, 133, 244, 1.0),
+            child: Text(
+              episode.episodeNo.toString(),
+              style: const TextStyle(
+                  color: Colors.black87, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
         title: Text(
@@ -144,15 +142,11 @@ class _HomePageState extends State<HomePage> {
               const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         subtitle: Row(
-          children: [
-            const Icon(
+          children: const [
+            Icon(
               Icons.linear_scale,
               color: Colors.yellowAccent,
             ),
-            Text(
-              " ${episode.episodeNo}",
-              style: const TextStyle(color: Colors.white),
-            )
           ],
         ),
         trailing: IconButton(
@@ -160,9 +154,8 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => VideoPlayerScreen(
-                          episodeToLoad: episode
-                        )));
+                    builder: (context) =>
+                        VideoPlayerScreen(episodeToLoad: episode)));
           },
           icon: const Icon(Icons.keyboard_arrow_right,
               color: Colors.white, size: 30.0),

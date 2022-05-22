@@ -35,6 +35,7 @@ void main() async {
       print("Bye");
       return;
     }
+
     final soup = bs.BeautifulSoup(newRes.body);
     final episodeLink = soup.find("input", attrs: {"name":"main_video_url"})?.attributes['value'].toString();
     // print(episodeLink);
