@@ -32,11 +32,15 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     }
 
     final soup = bs.BeautifulSoup(newRes.body);
-    episodeLinkString = soup.find("input", attrs: {"name":"main_video_url"})?.attributes['value'].toString();
-    _controller =
-         VideoPlayerController.network(episodeLinkString.toString());
+    episodeLinkString = soup
+        .find("input", attrs: {"name": "main_video_url"})
+        ?.attributes['value']
+        .toString();
+    _controller = VideoPlayerController.network(episodeLinkString.toString());
     Future.delayed(const Duration(seconds: 1));
-    _initPlayerFuture = _controller.initialize().then((_) => setState(() => _didPlayerInit = true));
+    _initPlayerFuture = _controller
+        .initialize()
+        .then((_) => setState(() => _didPlayerInit = true));
     _player = VideoPlayer(_controller);
   }
 
@@ -55,18 +59,20 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
-        appBar: (!_hideBar) ? AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_rounded),
-          ),
-          centerTitle: true,
-          elevation: 0.1,
-          backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
-          title: Text(widget.episodeToLoad.episodeName),
-        ) : null,
+        appBar: (_hideBar)
+            ? AppBar(
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back_rounded),
+                ),
+                centerTitle: true,
+                elevation: 0.1,
+                backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
+                title: Text(widget.episodeToLoad.episodeName),
+              )
+            : null,
         body: FutureBuilder(
           future: (_didPlayerInit) ? _initPlayerFuture : null,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -82,21 +88,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             }
           },
         ),
-        floatingActionButton: (_didPlayerInit) ? FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              if (_controller.value.isPlaying) {
-                _controller.pause();
-                _hideBar = true;
-              } else {
-                _controller.play();
-                _hideBar = false;
-              }
-            });
-          },
-          child: Icon(
-            _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-          ),
-        ): null,
-  );
+        floatingActionButton: (_didPlayerInit)
+            ? FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    if (_controller.value.isPlaying) {
+                      _controller.pause();
+                      _hideBar = true;
+                    } else {
+                      _controller.play();
+                      _hideBar = false;
+                    }
+                  });
+                },
+                child: Icon(
+                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                ),
+              )
+            : null,
+      );
 }
