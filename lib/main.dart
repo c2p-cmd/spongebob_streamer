@@ -10,6 +10,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(primaryColor: const Color.fromRGBO(58, 66, 86, 1.0)),
+      debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );
   }
