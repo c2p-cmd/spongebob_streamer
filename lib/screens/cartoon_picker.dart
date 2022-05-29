@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:spongebob_streamer/screens/home.dart';
 import 'package:spongebob_streamer/utils/client.dart';
+import 'package:flutter/services.dart';
 
-const double iconSize = 18;
+const double iconSize = 12;
 
 class CartoonCover {
   final String cartoonName, link, imageLink;
@@ -67,6 +68,19 @@ class _CartoonPickerState extends State<CartoonPicker> {
       }
     });
     super.initState();
+    SystemChrome.setPreferredOrientations(
+        <DeviceOrientation>[DeviceOrientation.portraitUp]);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
+    super.dispose();
   }
 
   @override
@@ -105,7 +119,7 @@ class _CartoonPickerState extends State<CartoonPicker> {
                               width: width * 0.9,
                             ),
                             const Spacer(
-                              flex: 1,
+                              flex: 2,
                             ),
                             TextButton(
                               clipBehavior: Clip.hardEdge,
@@ -116,7 +130,16 @@ class _CartoonPickerState extends State<CartoonPicker> {
                                             cartoonName: item.cartoonName,
                                             cartoonLink: item.link,
                                           ))),
-                              child: Text(item.cartoonName),
+                              style: TextButton.styleFrom(
+                                  elevation: 0.05,
+                                  primary: Colors.indigoAccent),
+                              child: Text(
+                                item.cartoonName,
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            ),
+                            const Spacer(
+                              flex: 1,
                             ),
                           ],
                         ))
@@ -124,22 +147,30 @@ class _CartoonPickerState extends State<CartoonPicker> {
               ),
               // Indicator
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.min,
                 children: _cartoonCovers.asMap().entries.map((cartoonCover) {
-                  return IconButton(
-                      onPressed: () {
-                        setState(() => _current = cartoonCover.key);
-                        _controller.animateToPage(_current);
-                      },
-                      icon: (_current == cartoonCover.key)
-                          ? const Icon(
-                              Icons.circle,
-                              size: iconSize,
-                            )
-                          : const Icon(
-                              Icons.circle_outlined,
-                              size: iconSize,
-                            ));
+                  return SizedBox(
+                    width: width * 0.075,
+                    child: IconButton(
+                        onPressed: () {
+                          setState(() => _current = cartoonCover.key);
+                          _controller.animateToPage(_current);
+                        },
+                        splashColor: Colors.blueGrey,
+                        splashRadius: iconSize,
+                        icon: (_current == cartoonCover.key)
+                            ? const Icon(
+                                Icons.circle,
+                                size: iconSize,
+                                color: Colors.white70,
+                              )
+                            : const Icon(
+                                Icons.circle_outlined,
+                                size: iconSize,
+                                color: Colors.white10,
+                              )),
+                  );
                 }).toList(),
               )
             ],
