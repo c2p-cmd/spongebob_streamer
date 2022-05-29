@@ -118,9 +118,7 @@ class _CartoonPickerState extends State<CartoonPicker> {
                               height: height * 0.6,
                               width: width * 0.9,
                             ),
-                            const Spacer(
-                              flex: 2,
-                            ),
+                            const Padding(padding: EdgeInsets.only(top: 18.0)),
                             TextButton(
                               clipBehavior: Clip.hardEdge,
                               onPressed: () => Navigator.push(
@@ -138,9 +136,6 @@ class _CartoonPickerState extends State<CartoonPicker> {
                                 style: const TextStyle(fontSize: 18),
                               ),
                             ),
-                            const Spacer(
-                              flex: 1,
-                            ),
                           ],
                         ))
                     .toList(),
@@ -149,29 +144,31 @@ class _CartoonPickerState extends State<CartoonPicker> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.min,
-                children: _cartoonCovers.asMap().entries.map((cartoonCover) {
-                  return SizedBox(
-                    width: width * 0.075,
-                    child: IconButton(
-                        onPressed: () {
-                          setState(() => _current = cartoonCover.key);
-                          _controller.animateToPage(_current);
-                        },
-                        splashColor: Colors.blueGrey,
-                        splashRadius: iconSize,
-                        icon: (_current == cartoonCover.key)
-                            ? const Icon(
-                                Icons.circle,
-                                size: iconSize,
-                                color: Colors.white70,
-                              )
-                            : const Icon(
-                                Icons.circle_outlined,
-                                size: iconSize,
-                                color: Colors.white10,
-                              )),
-                  );
-                }).toList(),
+                children: _cartoonCovers
+                    .asMap()
+                    .entries
+                    .map((cartoonCover) => SizedBox(
+                          width: width * 0.075,
+                          child: IconButton(
+                              onPressed: () {
+                                setState(() => _current = cartoonCover.key);
+                                _controller.animateToPage(_current);
+                              },
+                              splashColor: Colors.blueGrey,
+                              splashRadius: iconSize,
+                              icon: (_current == cartoonCover.key)
+                                  ? const Icon(
+                                      Icons.circle,
+                                      size: iconSize,
+                                      color: Colors.white70,
+                                    )
+                                  : const Icon(
+                                      Icons.circle_outlined,
+                                      size: iconSize,
+                                      color: Colors.white10,
+                                    )),
+                        ))
+                    .toList(),
               )
             ],
           );
