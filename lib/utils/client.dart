@@ -3,13 +3,19 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart' as bs;
 
 const spongebob = "https://www.megacartoons.net/truth-or-square/";
 const batmanBeyond = "https://www.megacartoons.net/unmasked/";
-const johnnyBravo = "https://www.megacartoons.net/run-johnny-run/";
+const johnnyBravo = "https://www.megacartoons.net/johnny-bravo/";
 const courageDog = "https://www.megacartoons.net/muted-muriel/";
+const ben10 = "https://www.megacartoons.net/and-then-there-were-10/";
+const ben10AlienForce = "https://www.megacartoons.net/vendetta/";
+const ben10UltimateAlien = "https://www.megacartoons.net/moonstruck/";
 
 const spongebobTitle = "SPONGEBOB SQUAREPANTS";
 const batmanBeyondTitle = "BATMAN BEYOND";
 const johnnyBravoTitle = "JOHNNY BRAVO";
 const courageDogTitle = "COURAGE THE COWARDLY DOG";
+const ben10Title = "BEN 10";
+const ben10AlienForceTitle = "BEN 10 ALIEN FORCE";
+const ben10UltimateAlienTitle = "BEN 10 ULTIMATE ALIEN";
 
 class Episode {
   final int episodeNo;
@@ -20,10 +26,15 @@ class Episode {
       {required this.episodeNo,
       required this.episodeName,
       required this.episodeLinkString});
+
+  @override
+  String toString() {
+    return "Episode No. -> $episodeNo\nEpisode Name -> $episodeName\nEpisode Link -> $episodeLinkString\n";
+  }
 }
 
 void main() async {
-  const link = "https://www.megacartoons.net/truth-or-square/";
+  const link = johnnyBravo;
   final uri = Uri.parse(link);
   final List<Episode> episodes = <Episode>[];
 
@@ -36,7 +47,7 @@ void main() async {
 
   for (var l in list) {
     final episodeNo = int.parse(l.text.replaceFirst(" ", ''));
-    final name = l.attributes['title'].toString();
+    final name = l.attributes['title'].toString().trim();
     final linkString = l.attributes['href'].toString();
     final link = Uri.parse(linkString);
 
@@ -49,9 +60,11 @@ void main() async {
     final soup = bs.BeautifulSoup(newRes.body);
     final episodeLink = soup.find("input", attrs: {"name":"main_video_url"})?.attributes['value'].toString();
     // print(episodeLink);
-    episodes.add(Episode(
+    final e = Episode(
         episodeNo: episodeNo,
         episodeName: name,
-        episodeLinkString: episodeLink.toString()));
+        episodeLinkString: episodeLink.toString());
+    print(e);
+    episodes.add(e);
   }
 }
