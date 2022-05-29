@@ -5,8 +5,9 @@ const spongebob = "https://www.megacartoons.net/truth-or-square/";
 const batmanBeyond = "https://www.megacartoons.net/unmasked/";
 const johnnyBravo = "https://www.megacartoons.net/run-johnny-run/";
 
-const spongebobTitle = "Spongebob Squarepants";
+const spongebobTitle = "SPONGEBOB SQUAREPANTS";
 const batmanBeyondTitle = "BATMAN BEYOND";
+const johnnyBravoTitle = "JOHNNY BRAVO";
 
 class Episode {
   final int episodeNo;
