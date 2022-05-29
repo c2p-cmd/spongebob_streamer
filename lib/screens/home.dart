@@ -7,7 +7,11 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart' as bs;
 
 class HomePage extends StatefulWidget {
   final String cartoonLink, cartoonName;
-  const HomePage({Key? key, this.cartoonLink = spongebob, this.cartoonName = spongebobTitle}) : super(key: key);
+  const HomePage(
+      {Key? key,
+      this.cartoonLink = spongebob,
+      this.cartoonName = spongebobTitle})
+      : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -81,6 +85,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_rounded),
+          ),
           centerTitle: true,
           elevation: 0.1,
           backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
@@ -125,7 +133,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget makeBody(int itemCount, Column episodes) => ListView.builder(
       scrollDirection: Axis.vertical,
-      shrinkWrap: true,
+      shrinkWrap: false,
       itemCount: itemCount,
       itemBuilder: (BuildContext context, int index) {
         return Card(
