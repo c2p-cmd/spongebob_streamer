@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spongebob_streamer/screens/video_screen.dart';
 import 'package:spongebob_streamer/utils/client.dart';
 import 'package:http/http.dart' as http;
 import 'package:beautiful_soup_dart/beautiful_soup.dart' as bs;
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String cartoonLink, cartoonName;
+  const HomePage({Key? key, this.cartoonLink = spongebob, this.cartoonName = spongebobTitle}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,6 +16,24 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final List<Widget> _fetchedEpisodes = <Widget>[];
 
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations(
+        <DeviceOrientation>[DeviceOrientation.portraitUp]);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
+    super.dispose();
+  }
+
   String? getLinkFrom(bs.BeautifulSoup soup) => soup
       .find("input", attrs: {"name": "main_video_url"})
       ?.attributes['value']
@@ -21,7 +41,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<Episode>?> getAllEpisodes() async {
     try {
-      const link = "https://www.megacartoons.net/truth-or-square/";
+      final link = widget.cartoonLink;
       final uri = Uri.parse(link);
       final List<Episode> episodes = <Episode>[];
       final response = await http.get(uri, headers: {
@@ -64,7 +84,7 @@ class _HomePageState extends State<HomePage> {
           centerTitle: true,
           elevation: 0.1,
           backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
-          title: Text("Spongebob Squarepants".toUpperCase()),
+          title: Text(widget.cartoonName),
         ),
         body: Center(
           child: FutureBuilder(

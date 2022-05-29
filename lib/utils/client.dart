@@ -1,6 +1,13 @@
 import 'package:http/http.dart' as http;
 import 'package:beautiful_soup_dart/beautiful_soup.dart' as bs;
 
+const spongebob = "https://www.megacartoons.net/truth-or-square/";
+const batmanBeyond = "https://www.megacartoons.net/unmasked/";
+const johnnyBravo = "https://www.megacartoons.net/run-johnny-run/";
+
+const spongebobTitle = "Spongebob Squarepants";
+const batmanBeyondTitle = "BATMAN BEYOND";
+
 class Episode {
   final int episodeNo;
   final String episodeName;
