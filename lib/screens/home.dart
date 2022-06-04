@@ -43,38 +43,42 @@ class _HomePageState extends State<HomePage> {
       ?.attributes['value']
       .toString();
 
-  Future<List<Episode>?> getAllEpisodes() async {
+  Future<bool?> getAllEpisodes() async {
     try {
       final link = widget.cartoonLink;
       final uri = Uri.parse(link);
-      final List<Episode> episodes = <Episode>[];
+
       final response = await http.get(uri, headers: {
         'content-type': 'text/html; charset=UTF-8',
-        'Charset' : 'utf-8',
+        'Charset': 'utf-8',
         "Access-Control-Allow-Headers": "Access-Control-Allow-Origin, Accept"
       });
 
       if (response.statusCode != 200) {
-        return null;
+        return false;
       }
 
       final body = response.body;
       final soup = bs.BeautifulSoup(body);
       final list = soup.findAll('a', class_: "btn btn-sm btn-default");
 
+      var ctr = 0;
       for (var l in list) {
-        final episodeNo = int.parse(l.text.replaceFirst(" ", ''));
-        final name = l.attributes['title'].toString().trim();
+        ctr++;
+        final String? episodeName = l.attributes['title'];
+        final String name = episodeName.toString();
         final linkString = l.attributes['href'].toString();
         // final link = Uri.parse(linkString);
 
-        episodes.add(Episode(
-            episodeNo: episodeNo,
+        final currentEpisode = Episode(
+            episodeNo: ctr,
             episodeName: name,
-            episodeLinkString: linkString));
+            episodeLinkString: linkString);
+
+        _fetchedEpisodes.add(makeListTile(currentEpisode));
       }
 
-      return episodes;
+      return true;
     } on Exception catch (_) {
       // print(e);
       rethrow;
@@ -98,21 +102,15 @@ class _HomePageState extends State<HomePage> {
         body: Center(
           child: FutureBuilder(
             future: getAllEpisodes(),
-            builder:
-                (BuildContext context, AsyncSnapshot<List<Episode>?> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }
 
               if (snapshot.hasData) {
-                final episodes = snapshot.data;
-                if (episodes == null) {
-                  return const Text("Some error has occurred.");
-                }
-
-                for (var episode in episodes) {
-                  final episodeWidget = makeListTile(episode);
-                  _fetchedEpisodes.add(episodeWidget);
+                final didComplete = snapshot.data;
+                if (didComplete == null) {
+                  return const Text("Something went has occurred.");
                 }
 
                 return makeBody(
@@ -121,10 +119,6 @@ class _HomePageState extends State<HomePage> {
                       children: _fetchedEpisodes,
                     ));
               }
-
-              // if (!snapshot.hasData) {
-              //   return const Text("Some error has occurred!!");
-              // }
 
               return const CircularProgressIndicator();
             },
@@ -135,7 +129,7 @@ class _HomePageState extends State<HomePage> {
   Widget makeBody(int itemCount, Column episodes) => ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: false,
-      itemCount: itemCount,
+      itemCount: 1,
       itemBuilder: (BuildContext context, int index) {
         return Card(
           elevation: 0.8,
@@ -149,16 +143,16 @@ class _HomePageState extends State<HomePage> {
       });
 
   Widget makeListTile(Episode episode) => Card(
-    color: const Color.fromRGBO(64, 75, 96, .9),
-    elevation: 1,
-    child: ListTile(
+        color: const Color.fromRGBO(64, 75, 96, .9),
+        elevation: 1,
+        child: ListTile(
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           leading: Container(
             padding: const EdgeInsets.only(right: 12.0),
             decoration: const BoxDecoration(
-                border:
-                    Border(right: BorderSide(width: 1.0, color: Colors.white24))),
+                border: Border(
+                    right: BorderSide(width: 1.0, color: Colors.white24))),
             child: CircleAvatar(
               backgroundColor: const Color.fromRGBO(66, 133, 244, 1.0),
               child: Text(
@@ -170,13 +164,13 @@ class _HomePageState extends State<HomePage> {
           ),
           title: Text(
             episode.episodeName,
-            style:
-                const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
           ),
           subtitle: Row(
             children: const [
               Icon(
-                Icons.linear_scale,
+                Icons.tv_rounded,
                 color: Colors.yellowAccent,
               ),
             ],
@@ -193,5 +187,5 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white, size: 30.0),
           ),
         ),
-  );
+      );
 }

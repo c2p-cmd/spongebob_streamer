@@ -17,38 +17,37 @@ final _cartoonCovers = <CartoonCover>[
       cartoonName: batmanBeyondTitle,
       link: batmanBeyond,
       imageLink: "assests/covers/batmanBeyond.png"
-      // "https://i0.wp.com/batman-news.com/wp-content/uploads/2022/04/Batman-Beyond-Neo-Year-1-1-1.jpg?fit=1987%2C3056&quality=80&strip=info&ssl=1"
       ),
   CartoonCover(
       cartoonName: spongebobTitle,
       link: spongebob,
       imageLink: "assests/covers/spongebob.png"
-      // "https://images.viacbs.tech/uri/mgid:arc:imageassetref:nick.com:9cd2df6e-63c7-43da-8bde-8d77af9169c7?quality=0.7"
       ),
   CartoonCover(
       cartoonName: courageDogTitle,
       link: courageDog,
       imageLink: "assests/covers/courage.png"
-      // "https://m.media-amazon.com/images/M/MV5BMTU4MGEyNTItNzg5ZS00ZGU0LTk4NmEtODM0Y2UxYTY2YTUyXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_FMjpg_UX1000_.jpg"
       ),
   CartoonCover(
       cartoonName: ben10Title,
       link: ben10,
       imageLink: "assests/covers/ben10.png"
-      //"https://m.media-amazon.com/images/M/MV5BNDI5NjAxMWEtNGYyOS00MjIxLTg1Y2MtMjdiZTM3NWZlYjM5XkEyXkFqcGdeQXVyMTM0NTUzNDIy._V1_.jpg"
       ),
   CartoonCover(
       cartoonName: ben10AlienForceTitle,
       link: ben10AlienForce,
       imageLink: "assests/covers/ben10AlienForce.png"
-      //"https://m.media-amazon.com/images/M/MV5BYmQwYTc1ZDEtMzU3My00OTIzLWE1YmEtYmUyMmMzZTI2ZWNlXkEyXkFqcGdeQXVyOTgwMzk1MTA@._V1_.jpg"
       ),
   CartoonCover(
       cartoonName: ben10UltimateAlienTitle,
       link: ben10UltimateAlien,
       imageLink: "assests/covers/ben10UltimateAlien.png"
-      //"https://m.media-amazon.com/images/M/MV5BNzgxYjcwNDUtZTcxZS00NmIyLWI3OTAtNTQ3NzZjM2RkMTFkXkEyXkFqcGdeQXVyNjk1Njg5NTA@._V1_.jpg"
       ),
+  CartoonCover(
+      cartoonName: johnnyBravoTitle,
+      link: johnnyBravo,
+      imageLink: "assests/covers/jb.png"
+  ),
 ];
 
 class CartoonPicker extends StatefulWidget {
@@ -65,6 +64,7 @@ class _CartoonPickerState extends State<CartoonPicker> {
   @override
   void initState() {
     super.initState();
+    _cartoonCovers.sort((a,b) => a.cartoonName.compareTo(b.cartoonName));
     SystemChrome.setPreferredOrientations(
         <DeviceOrientation>[DeviceOrientation.portraitUp]);
   }
