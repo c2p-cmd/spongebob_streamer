@@ -16,38 +16,47 @@ final _cartoonCovers = <CartoonCover>[
   CartoonCover(
       cartoonName: batmanBeyondTitle,
       link: batmanBeyond,
-      imageLink: "assests/covers/batmanBeyond.png"
-      ),
+      imageLink: "assests/covers/batmanBeyond.png"),
   CartoonCover(
       cartoonName: spongebobTitle,
       link: spongebob,
-      imageLink: "assests/covers/spongebob.png"
-      ),
+      imageLink: "assests/covers/spongebob.png"),
   CartoonCover(
       cartoonName: courageDogTitle,
       link: courageDog,
-      imageLink: "assests/covers/courage.png"
-      ),
+      imageLink: "assests/covers/courage.png"),
   CartoonCover(
       cartoonName: ben10Title,
       link: ben10,
-      imageLink: "assests/covers/ben10.png"
-      ),
+      imageLink: "assests/covers/ben10.png"),
   CartoonCover(
       cartoonName: ben10AlienForceTitle,
       link: ben10AlienForce,
-      imageLink: "assests/covers/ben10AlienForce.png"
-      ),
+      imageLink: "assests/covers/ben10AlienForce.png"),
   CartoonCover(
       cartoonName: ben10UltimateAlienTitle,
       link: ben10UltimateAlien,
-      imageLink: "assests/covers/ben10UltimateAlien.png"
-      ),
+      imageLink: "assests/covers/ben10UltimateAlien.png"),
   CartoonCover(
       cartoonName: johnnyBravoTitle,
       link: johnnyBravo,
-      imageLink: "assests/covers/jb.png"
-  ),
+      imageLink: "assests/covers/jb.png"),
+  CartoonCover(
+      cartoonName: spiderManTitle,
+      link: spiderman,
+      imageLink: "assests/covers/spiderman.png"),
+  CartoonCover(
+      cartoonName: dexterLabTitle,
+      link: dexterLab,
+      imageLink: "assests/covers/dexter.png"),
+  CartoonCover(
+      cartoonName: avengersTitle,
+      link: avengers,
+      imageLink: "assests/covers/img.png"),
+  CartoonCover(
+      cartoonName: scoobyDooTitle,
+      link: scoobyDo,
+      imageLink: "assests/covers/scoobydoo.png"),
 ];
 
 class CartoonPicker extends StatefulWidget {
@@ -64,7 +73,7 @@ class _CartoonPickerState extends State<CartoonPicker> {
   @override
   void initState() {
     super.initState();
-    _cartoonCovers.sort((a,b) => a.cartoonName.compareTo(b.cartoonName));
+    _cartoonCovers.sort((a, b) => a.cartoonName.compareTo(b.cartoonName));
     SystemChrome.setPreferredOrientations(
         <DeviceOrientation>[DeviceOrientation.portraitUp]);
   }
