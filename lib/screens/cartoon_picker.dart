@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:spongebob_streamer/screens/home.dart';
+import 'package:spongebob_streamer/screens/pokemon_home.dart';
 import 'package:spongebob_streamer/utils/client.dart';
 import 'package:flutter/services.dart';
 
@@ -57,6 +58,30 @@ final _cartoonCovers = <CartoonCover>[
       cartoonName: scoobyDooTitle,
       link: scoobyDo,
       imageLink: "assests/covers/scoobydoo.png"),
+  CartoonCover(
+      cartoonName: samuraiJackTitle,
+      link: samuraiJack,
+      imageLink: "assests/covers/samuraiJack.jpg"),
+  CartoonCover(
+      cartoonName: dragonBallGtTitle,
+      link: dragonBallGt,
+      imageLink: "assests/covers/dragonBallGt.png"),
+  CartoonCover(
+      cartoonName: pokemonTitle,
+      link: pokemon,
+      imageLink: "assests/covers/pokemon.png"),
+  CartoonCover(
+      cartoonName: pokemonOriginTitle,
+      link: pokemonOrigin,
+      imageLink: "assests/covers/pokemon origin.png"),
+  CartoonCover(
+      cartoonName: pokemonXYTitle,
+      link: pokemonXY,
+      imageLink: "assests/covers/pokemon xy.png"),
+  CartoonCover(
+      cartoonName: pokemonXYZTitle,
+      link: pokemonXYZ,
+      imageLink: "assests/covers/pokemon xyz.png"),
 ];
 
 class CartoonPicker extends StatefulWidget {
@@ -90,102 +115,121 @@ class _CartoonPickerState extends State<CartoonPicker> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0.1,
+  Widget build(BuildContext context) => Scaffold(
         backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
-        title: const Text("CARTOON PICKER"),
-      ),
-      body: Builder(
-        builder: (BuildContext context) {
-          final double height = MediaQuery.of(context).size.height;
-          final width = MediaQuery.of(context).size.width;
-          return Column(
-            children: [
-              CarouselSlider(
-                carouselController: _controller,
-                options: CarouselOptions(
-                  initialPage: _current,
-                  height: height * 0.799,
-                  viewportFraction: 0.9,
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  onPageChanged: (value, _) => setState(() => _current = value),
-                ),
-                items: _cartoonCovers
-                    .map((item) => Column(
-                          children: [
-                            Image.asset(
-                              item.imageLink,
-                              fit: BoxFit.contain,
-                              height: height * 0.6,
-                              width: width * 0.9,
-                            ),
-                            // Image.network(
-                            //   item.imageLink,
-                            //   fit: BoxFit.contain,
-                            //   height: height * 0.6,
-                            //   width: width * 0.9,
-                            // ),
-                            const Padding(padding: EdgeInsets.only(top: 18.0)),
-                            TextButton(
-                              clipBehavior: Clip.hardEdge,
-                              onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage(
-                                            cartoonName: item.cartoonName,
-                                            cartoonLink: item.link,
-                                          ))),
-                              style: TextButton.styleFrom(
-                                  elevation: 0.05,
-                                  primary: Colors.indigoAccent),
-                              child: Text(
-                                item.cartoonName,
-                                style: const TextStyle(fontSize: 18),
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 0.1,
+          backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
+          title: const Text("CARTOON PICKER"),
+        ),
+        body: Builder(
+          builder: (BuildContext context) {
+            final double height = MediaQuery.of(context).size.height;
+            final width = MediaQuery.of(context).size.width;
+            return Column(
+              children: [
+                CarouselSlider(
+                  carouselController: _controller,
+                  options: CarouselOptions(
+                    initialPage: _current,
+                    height: height * 0.799,
+                    viewportFraction: 0.9,
+                    enlargeCenterPage: true,
+                    autoPlay: true,
+                    onPageChanged: (value, _) =>
+                        setState(() => _current = value),
+                  ),
+                  items: _cartoonCovers
+                      .map((item) => Column(
+                            children: [
+                              Image.asset(
+                                item.imageLink,
+                                fit: BoxFit.contain,
+                                height: height * 0.6,
+                                width: width * 0.9,
                               ),
-                            ),
-                          ],
-                        ))
-                    .toList(),
-              ),
-              // Indicator
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.min,
-                children: _cartoonCovers
-                    .asMap()
-                    .entries
-                    .map((cartoonCover) => SizedBox(
-                          width: width * 0.075,
-                          child: IconButton(
-                              onPressed: () {
-                                setState(() => _current = cartoonCover.key);
-                                _controller.animateToPage(_current);
-                              },
-                              splashColor: Colors.blueGrey,
-                              splashRadius: iconSize,
-                              icon: (_current == cartoonCover.key)
-                                  ? const Icon(
-                                      Icons.circle,
-                                      size: iconSize,
-                                      color: Colors.white70,
-                                    )
-                                  : const Icon(
-                                      Icons.circle_outlined,
-                                      size: iconSize,
-                                      color: Colors.white10,
-                                    )),
-                        ))
-                    .toList(),
-              )
-            ],
-          );
-        },
-      ),
-    );
-  }
+                              // Image.network(
+                              //   item.imageLink,
+                              //   fit: BoxFit.contain,
+                              //   height: height * 0.6,
+                              //   width: width * 0.9,
+                              // ),
+                              const Padding(
+                                  padding: EdgeInsets.only(top: 18.0)),
+                              if (!item.cartoonName.contains('!'))
+                                TextButton(
+                                  clipBehavior: Clip.hardEdge,
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomePage(
+                                                cartoonName: item.cartoonName,
+                                                cartoonLink: item.link,
+                                              ))),
+                                  style: TextButton.styleFrom(
+                                      elevation: 0.05,
+                                      primary: Colors.indigoAccent),
+                                  child: Text(
+                                    item.cartoonName,
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                              if (item.cartoonName.contains('!'))
+                                TextButton(
+                                  clipBehavior: Clip.hardEdge,
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => PokemonHomePage(
+                                                name: item.cartoonName,
+                                                link: item.link,
+                                              ))),
+                                  style: TextButton.styleFrom(
+                                      elevation: 0.05,
+                                      primary: Colors.indigoAccent),
+                                  child: Text(
+                                    item.cartoonName,
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                            ],
+                          ))
+                      .toList(),
+                ),
+                // Indicator
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.min,
+                  children: _cartoonCovers
+                      .asMap()
+                      .entries
+                      .map((cartoonCover) => SizedBox(
+                            width: width * 0.05,
+                            child: IconButton(
+                                onPressed: () {
+                                  setState(() => _current = cartoonCover.key);
+                                  _controller.animateToPage(_current);
+                                },
+                                splashColor: Colors.blueGrey,
+                                splashRadius: iconSize,
+                                icon: (_current == cartoonCover.key)
+                                    ? const Icon(
+                                        Icons.circle,
+                                        size: iconSize,
+                                        color: Colors.white70,
+                                      )
+                                    : const Icon(
+                                        Icons.circle_outlined,
+                                        size: iconSize,
+                                        color: Colors.white10,
+                                      )),
+                          ))
+                      .toList(),
+                )
+              ],
+            );
+          },
+        ),
+      );
 }

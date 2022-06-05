@@ -51,7 +51,8 @@ class _HomePageState extends State<HomePage> {
       final response = await http.get(uri, headers: {
         'content-type': 'text/html; charset=UTF-8',
         'Charset': 'utf-8',
-        "Access-Control-Allow-Headers": "Access-Control-Allow-Origin, Accept"
+        "Access-Control-Allow-Headers": "Access-Control-Allow-Origin, Accept",
+        "Access-Control_Allow_Origin": "*"
       });
 
       if (response.statusCode != 200) {
