@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:beautiful_soup_dart/beautiful_soup.dart' as bs;
 
@@ -20,6 +21,7 @@ const pokemon = 'https://animixplay.to/v1/pokemon-dub/ep2';
 const pokemonXY = 'https://animixplay.to/v1/pokemon-xy-dub/ep4';
 const pokemonXYZ = 'https://animixplay.to/v1/pokemon-xyz-dub/ep5';
 const pokemonOrigin = 'https://animixplay.to/v1/pokemon-the-origin-dub';
+const fairyTail2014 = 'https://animixplay.to/v1/fairy-tail-2014-dub';
 
 const spongebobTitle = "SPONGEBOB SQUAREPANTS";
 const batmanBeyondTitle = "BATMAN BEYOND";
@@ -38,6 +40,7 @@ const pokemonTitle = 'POKEMON!';
 const pokemonXYTitle = 'POKEMON XY!';
 const pokemonXYZTitle = 'POKEMON XYZ!';
 const pokemonOriginTitle = 'POKEMON ORIGIN!';
+const fairyTail2014Title = 'FAIRY TAIL 2014!';
 
 extension StringExtension on String {
   String capitalize() {
@@ -57,15 +60,13 @@ class Episode {
       required this.episodeLinkString});
 
   @override
-  String toString() {
-    return "Episode No. -> $episodeNo\nEpisode Name -> $episodeName\nEpisode Link -> $episodeLinkString\n";
-  }
+  String toString() => "Episode No. -> $episodeNo\nEpisode Name -> $episodeName\nEpisode Link -> $episodeLinkString\n";
 }
 
 void fetchEps() async {
   const link = 'https://animixplay.to/v1/pokemon-dub/ep2';
   final uri = Uri.parse(link);
-  final List<Episode> episodes = <Episode>[];
+  // final List<Episode> episodes = <Episode>[];
 
   final response = await http
       .get(uri, headers: {'content-type': 'text/html; charset=UTF-8'});
@@ -84,7 +85,9 @@ void fetchEps() async {
     final epLink = 'http:${temp[0]}';
     final epName = temp[1].replaceAll('+%28Dub%29+', ' ').replaceAll('+', ' ');
 
-    print(Episode(episodeNo: key, episodeName: epName, episodeLinkString: epLink));
+    if (kDebugMode) {
+      print(Episode(episodeNo: key, episodeName: epName, episodeLinkString: epLink));
+    }
     break;
   }
 
@@ -99,7 +102,9 @@ void fetchDataFromLink() async {
   final response = await http.get(epLink);
   final soup = bs.BeautifulSoup(response.body);
 
-  print(soup.findAll('iframe'));
+  if (kDebugMode) {
+    print(soup.findAll('iframe'));
+  }
 }
 
 void main() {
