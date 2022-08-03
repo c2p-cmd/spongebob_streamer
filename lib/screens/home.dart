@@ -72,9 +72,7 @@ class _HomePageState extends State<HomePage> {
         // final link = Uri.parse(linkString);
 
         final currentEpisode = Episode(
-            episodeNo: ctr,
-            episodeName: name,
-            episodeLinkString: linkString);
+            episodeNo: ctr, episodeName: name, episodeLinkString: linkString);
 
         _fetchedEpisodes.add(makeListTile(currentEpisode));
       }
