@@ -82,6 +82,10 @@ final _cartoonCovers = <CartoonCover>[
       cartoonName: pokemonXYZTitle,
       link: pokemonXYZ,
       imageLink: "assests/covers/pokemon xyz.png"),
+  CartoonCover(
+      cartoonName: fairyTail2014Title,
+      link: fairyTail2014,
+      imageLink: 'assests/covers/fairytail2014.png'),
 ];
 
 class CartoonPicker extends StatefulWidget {
